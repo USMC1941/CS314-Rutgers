@@ -1,0 +1,33 @@
+/*
+ **********************************************
+ *  CS314 Principles of Programming Languages *
+ *  Fall 2018                                 *
+ *  File: README                              *
+ *  Date: 11/27/2018                          *
+ **********************************************
+ */
+
+1. Upload match.tgz to your ilab machine
+2. Extract match.tgz
+    tar -xvzf match.tgz
+5. Download the matrix file
+    e.g. for matrix cant:
+    wget https://sparse.tamu.edu/MM/Williams/cant.tar.gz
+    If the disk space is not enough, please use freespace
+    https://www.cs.rutgers.edu/resources/storage-technology-and-options
+    Read the above page for how to use freespace
+6. Extract the matrix file
+    tar -xvzf cant.tar.gz
+3. "make match" should compile everything into a single executable - match
+4. Please check usage before you start
+    ./match
+6. Run
+    e.g. ./match cant/cant.mtx cant.out oneWay 2
+7. Check matching result in cant.out (specified by the argument)
+
+8. You can use the provided binary match-sol to verify your output.
+
+If you have any question or you find anything wrong in the code package,
+Please send email to yc827@cs.rutgers.edu
+
+Yanhao Chen
