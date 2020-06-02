@@ -15,29 +15,31 @@ void n_ways_handshake_wrapper(int nthreads, int nWays, GraphData graph, int **re
 
     /* initialize pthread environment */
     /* allocate memory for pthreads */
-    pthread_t *threads = (pthread_t *) malloc(nthreads * sizeof(pthread_t));
+    pthread_t *threads = (pthread_t *)malloc(nthreads * sizeof(pthread_t));
     /* allocate memory for pthread data */
-    NWayThreadData *td = (NWayThreadData *) malloc(nthreads * sizeof(NWayThreadData));
+    NWayThreadData *td = (NWayThreadData *)malloc(nthreads * sizeof(NWayThreadData));
     /* initialize pthread barrier */
-    pthread_barrier_t *barrier = (pthread_barrier_t *) malloc(sizeof(pthread_barrier_t));
+    pthread_barrier_t *barrier = (pthread_barrier_t *)malloc(sizeof(pthread_barrier_t));
     pthread_barrier_init(barrier, NULL, nthreads);
 
     /* prepare thread data */
     /* allocate memory for matching result for each round */
-    int *strongNeighbor = (int *) malloc(graph.nNodes * sizeof(int));
+    int *strongNeighbor = (int *)malloc(graph.nNodes * sizeof(int));
     /* allocate memory for unmatched nodes */
-    int *nodeToProcess = (int *) malloc(graph.nNodes * sizeof(int));
+    int *nodeToProcess = (int *)malloc(graph.nNodes * sizeof(int));
     /* initialize it with node index */
-    for (i = 0; i < graph.nNodes; i++) nodeToProcess[i] = i;
-    int *newNodeToProcess = (int *) malloc(graph.nNodes * sizeof(int));
-    int *nodeCount = (int *) malloc(nthreads * sizeof(int));
-    int *startLocations = (int *) malloc((nthreads + 1) * sizeof(int));
+    for (i = 0; i < graph.nNodes; i++)
+        nodeToProcess[i] = i;
+    int *newNodeToProcess = (int *)malloc(graph.nNodes * sizeof(int));
+    int *nodeCount = (int *)malloc(nthreads * sizeof(int));
+    int *startLocations = (int *)malloc((nthreads + 1) * sizeof(int));
     /* allocate memory for nway graph */
-    int *nWayGraph = (int *) malloc(graph.nNodes * nWays * sizeof(int));
-    int *nWayGraphDegree = (int *) calloc(graph.nNodes, sizeof(int));
+    int *nWayGraph = (int *)malloc(graph.nNodes * nWays * sizeof(int));
+    int *nWayGraphDegree = (int *)calloc(graph.nNodes, sizeof(int));
 
     /* prepare thread data */
-    for (i = 0; i < nthreads; i++) {
+    for (i = 0; i < nthreads; i++)
+    {
         td[i].threadId = i;
         td[i].threadNum = nthreads;
         td[i].nWays = nWays;
@@ -62,17 +64,21 @@ void n_ways_handshake_wrapper(int nthreads, int nWays, GraphData graph, int **re
     /* graph matching stage */
     int rc;
     long iter = 0;
-    for (i = 0; i < nthreads; i++) {
+    for (i = 0; i < nthreads; i++)
+    {
         rc = pthread_create(&threads[i], NULL, n_ways_handshake, (void *)&td[i]);
-        if (rc) {
+        if (rc)
+        {
             ERROR("pthread_create failed with thread %d with return code %d\n", i, rc);
             exit(EXIT_FAILURE);
         }
     }
 
-    for (i = 0; i < nthreads; i++) {
+    for (i = 0; i < nthreads; i++)
+    {
         rc = pthread_join(threads[i], (void **)&iter);
-        if (rc) {
+        if (rc)
+        {
             ERROR("pthread_join failed with thread %d with return code %d\n", i, rc);
             exit(EXIT_FAILURE);
         }
@@ -88,17 +94,25 @@ void n_ways_handshake_wrapper(int nthreads, int nWays, GraphData graph, int **re
 
     /* clean-up */
     pthread_barrier_destroy(barrier);
-    free(threads); threads = NULL;
-    free(td); td = NULL;
-    free(strongNeighbor); strongNeighbor = NULL;
-    free(nodeToProcess); nodeToProcess = NULL;
-    free(newNodeToProcess); newNodeToProcess = NULL;
-    free(nodeCount); nodeCount = NULL;
-    free(startLocations); startLocations = NULL;
-    free(nWayGraph); nWayGraph = NULL;
-    free(nWayGraphDegree); nWayGraphDegree = NULL;
+    free(threads);
+    threads = NULL;
+    free(td);
+    td = NULL;
+    free(strongNeighbor);
+    strongNeighbor = NULL;
+    free(nodeToProcess);
+    nodeToProcess = NULL;
+    free(newNodeToProcess);
+    newNodeToProcess = NULL;
+    free(nodeCount);
+    nodeCount = NULL;
+    free(startLocations);
+    startLocations = NULL;
+    free(nWayGraph);
+    nWayGraph = NULL;
+    free(nWayGraphDegree);
+    nWayGraphDegree = NULL;
 }
-
 
 void *n_ways_handshake(void *threadArg)
 {
@@ -113,7 +127,7 @@ void *n_ways_handshake(void *threadArg)
     int *nodeToProcess = td->nodeToProcess;
     int *nodeCount = td->nodeCount;
     int *startLocations = td->startLocations;
-    int *newNodeToProcess = td-> newNodeToProcess;
+    int *newNodeToProcess = td->newNodeToProcess;
     int nWays = td->nWays;
     int *nWayGraph = td->nWayGraph;
     int *nWayGraphDegree = td->nWayGraphDegree;
@@ -122,7 +136,8 @@ void *n_ways_handshake(void *threadArg)
 
     /* start matching */
     long iter;
-    for (iter = 0; ;iter++) {
+    for (iter = 0;; iter++)
+    {
         /* Step 1: Each vertex extends N hands and generates the N-way graph */
         generate_n_way_graph(threadId, threadNum,
                              graph, nWays,
@@ -134,9 +149,9 @@ void *n_ways_handshake(void *threadArg)
         /* Step 2: Remove those edges that don't have handshaking in the N-way graph */
         /* At the same time, each vertex extends a hand to the strongest neighbor */
         prune_n_way_graph(threadId, threadNum, nWays,
-                                     remainNodesNum, nodeToProcess,
-                                     nWayGraphDegree, nWayGraph,
-                                     strongNeighbor);
+                          remainNodesNum, nodeToProcess,
+                          nWayGraphDegree, nWayGraph,
+                          strongNeighbor);
         pthread_barrier_wait(barrier);
 
         /* Step 3: Each vertex checks if there is a handshaking */
@@ -158,7 +173,8 @@ void *n_ways_handshake(void *threadArg)
         pthread_barrier_wait(barrier);
 
         /* detect if we have find a maximal matching */
-        if (startLocations[threadNum] == 0) break;
+        if (startLocations[threadNum] == 0)
+            break;
 
         /* Step 4.3: Each thread updates unmatched vertices in newNodeToProcess */
         update_remain_nodes_index(threadId, threadNum,
@@ -171,7 +187,6 @@ void *n_ways_handshake(void *threadArg)
         remainNodesNum = startLocations[threadNum];
         /* swap remainIndex and tmpnodeToProcess */
         swapIntArray(&nodeToProcess, &newNodeToProcess);
-
     }
 
     pthread_exit((void *)iter);

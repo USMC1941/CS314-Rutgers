@@ -22,5 +22,3 @@ void check_handshaking(int threadId, int threadNum,
 {
     /* Your Code Goes Here */
 }
-
-

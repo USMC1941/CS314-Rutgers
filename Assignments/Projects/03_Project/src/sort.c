@@ -31,18 +31,22 @@ void quickSort_RCW(int *row, int *col, double *val, int left, int right)
     int pivotCol = col[(left + right) / 2];
     double pivotVal = val[(left + right) / 2];
 
-    while (i < j) {
+    while (i < j)
+    {
         while (row[i] < pivotRow ||
                (row[i] == pivotRow && col[i] < pivotCol) ||
-               (row[i] == pivotRow && col[i] == pivotCol && val[i] > pivotVal)) {
+               (row[i] == pivotRow && col[i] == pivotCol && val[i] > pivotVal))
+        {
             i++;
         }
         while (row[j] > pivotRow ||
-              (row[j] == pivotRow && col[j] > pivotCol) ||
-              (row[j] == pivotRow && col[j] == pivotCol && val[j] < pivotVal)) {
+               (row[j] == pivotRow && col[j] > pivotCol) ||
+               (row[j] == pivotRow && col[j] == pivotCol && val[j] < pivotVal))
+        {
             j--;
         }
-        if (i <= j) {
+        if (i <= j)
+        {
             swap(row, col, val, i, j);
             i++;
             j--;
@@ -68,18 +72,22 @@ void quickSort_RWC(int *row, int *col, double *val, int left, int right)
     int pivotCol = col[(left + right) / 2];
     double pivotVal = val[(left + right) / 2];
 
-    while (i < j) {
+    while (i < j)
+    {
         while (row[i] < pivotRow ||
-                (row[i] == pivotRow && val[i] > pivotVal) ||
-                (row[i] == pivotRow && val[i] == pivotVal && col[i] < pivotCol)) {
+               (row[i] == pivotRow && val[i] > pivotVal) ||
+               (row[i] == pivotRow && val[i] == pivotVal && col[i] < pivotCol))
+        {
             i++;
         }
         while (row[j] > pivotRow ||
-                (row[j] == pivotRow && val[j] < pivotVal) ||
-                (row[j] == pivotRow && val[j] == pivotVal && col[j] > pivotCol)) {
+               (row[j] == pivotRow && val[j] < pivotVal) ||
+               (row[j] == pivotRow && val[j] == pivotVal && col[j] > pivotCol))
+        {
             j--;
         }
-        if (i <= j) {
+        if (i <= j)
+        {
             swap(row, col, val, i, j);
             i++;
             j--;
@@ -90,7 +98,7 @@ void quickSort_RWC(int *row, int *col, double *val, int left, int right)
         quickSort_RWC(row, col, val, left, j);
     if (i < right)
         quickSort_RWC(row, col, val, i, right);
-};
+}
 
 void sort_RWC(int *row, int *col, double *val, int nnz)
 {
@@ -105,18 +113,22 @@ void quickSort_WRC(int *row, int *col, double *val, int left, int right)
     int pivotCol = col[(left + right) / 2];
     double pivotVal = val[(left + right) / 2];
 
-    while (i < j) {
+    while (i < j)
+    {
         while (val[i] > pivotVal ||
                (val[i] == pivotVal && row[i] < pivotRow) ||
-               (val[i] == pivotVal && row[i] == pivotRow && col[i] < pivotCol)) {
+               (val[i] == pivotVal && row[i] == pivotRow && col[i] < pivotCol))
+        {
             i++;
         }
         while (val[j] < pivotVal ||
                (val[j] == pivotVal && row[j] > pivotRow) ||
-               (val[j] == pivotVal && row[j] == pivotRow && col[j] > pivotCol)) {
+               (val[j] == pivotVal && row[j] == pivotRow && col[j] > pivotCol))
+        {
             j--;
         }
-        if (i <= j) {
+        if (i <= j)
+        {
             swap(row, col, val, i, j);
             i++;
             j--;
@@ -127,7 +139,7 @@ void quickSort_WRC(int *row, int *col, double *val, int left, int right)
         quickSort_WRC(row, col, val, left, j);
     if (i < right)
         quickSort_WRC(row, col, val, i, right);
-};
+}
 
 void sort_WRC(int *row, int *col, double *val, int nnz)
 {

@@ -15,8 +15,8 @@
 #define NO_MATCHED_NODES -2
 #define INITIAL -3
 
-void one_way_handshake_wrapper(int nthreads, GraphData graph, int ** res);
+void one_way_handshake_wrapper(int nthreads, GraphData graph, int **res);
 
-void n_ways_handshake_wrapper(int nthreads, int nWays, GraphData graph, int ** res);
+void n_ways_handshake_wrapper(int nthreads, int nWays, GraphData graph, int **res);
 
 #endif

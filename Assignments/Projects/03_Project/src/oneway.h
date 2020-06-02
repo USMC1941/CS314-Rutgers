@@ -30,7 +30,6 @@ typedef struct OneWayThreadData
 
 void *one_way_handshake(void *threadArg);
 
-
 /*
  * INPUT:
  * threadId: Thread index of one active context
@@ -47,7 +46,7 @@ void *one_way_handshake(void *threadArg);
  */
 void extend_one_hand(int threadId, int threadNum, GraphData graph,
                      int nodeNum, int *nodeToProcess,
-                     int *res, int*strongNeighbor);
+                     int *res, int *strongNeighbor);
 
 /*
  * INPUT:

@@ -19,12 +19,10 @@ void generate_n_way_graph(int threadId, int threadNum,
     /* Your Code Goes Here */
 }
 
-
 void prune_n_way_graph(int threadId, int threadNum, int nWays,
-                                  int nodeNum, int *nodeToProcess,
-                                  int *nWayGraphDegree, int *nWayGraph,
-                                  int *strongNeighbor)
+                       int nodeNum, int *nodeToProcess,
+                       int *nWayGraphDegree, int *nWayGraph,
+                       int *strongNeighbor)
 {
     /* Your Code Goes Here */
 }
-
